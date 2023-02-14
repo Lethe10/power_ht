@@ -39,7 +39,8 @@
               />
             </div>
             <div class="content">
-              <p :style="{ color: item.paramsColor }">{{ item.params }}</p>
+              <p :style="{ color: item.paramsColor }" v-if="item.description!='室外温度'">{{ item.params }}</p>
+              <p :style="{ color: item.paramsColor }" v-else>---</p>
               <p>{{ item.description }}</p>
             </div>
           </div>
@@ -65,7 +66,6 @@
       title="更改锅炉开关"
       :visible.sync="updateRunstatus"
       width="15%"
-      :before-close="handleClose"
     >
       <p style="text-align: center">
         <el-button type="danger" @click="updateRunstatusFn('0000')"
@@ -80,7 +80,6 @@
       title="设置温度"
       :visible.sync="updateInstalles"
       width="15%"
-      :before-close="handleClose"
     >
       <p style="text-align: center">
         <el-input v-model="installes" placeholder="请输入温度"></el-input>
@@ -94,7 +93,6 @@
       title="新增锅炉"
       :visible.sync="addBoilerFlag"
       width="20%"
-      :before-close="handleClose"
     >
       <p style="margin-bottom: 10px">
         <el-input v-model="installes" placeholder="请输入设备编号"></el-input>
@@ -295,6 +293,7 @@ export default {
       this.airId = airId;
       let arr = [];
       selectBoilerApi({ airId: airId }).then((res) => {
+        console.log('锅炉'+airId+'接受到的参数',res);
         let {
           runstatus,
           hotwater,
