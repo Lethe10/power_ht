@@ -82,7 +82,7 @@
       width="15%"
     >
       <p style="text-align: center">
-        <el-input v-model="installes" placeholder="请输入温度"></el-input>
+        <el-input v-model="installes" placeholder="请输入温度" type="number"></el-input>
       </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="updateInstalles = false">取 消</el-button>
@@ -95,19 +95,19 @@
       width="20%"
     >
       <p style="margin-bottom: 10px">
-        <el-input v-model="installes" placeholder="请输入设备编号"></el-input>
+        <el-input v-model="addParameter.airId" placeholder="请输入设备编号"></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="installes" placeholder="请输入设备位置"></el-input>
+        <el-input v-model="addParameter.location" placeholder="请输入设备位置"></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="installes" placeholder="请输入设备名称"></el-input>
+        <el-input v-model="addParameter.eiName" placeholder="请输入设备名称"></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="installes" placeholder="请输入所属部门"></el-input>
+        <el-input v-model="addParameter.deptId" placeholder="请输入所属部门"></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="installes" placeholder="请输入设置温度"></el-input>
+        <el-input v-model="addParameter.installes" placeholder="请输入设置温度"></el-input>
       </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addBoilerFlag = false">取 消</el-button>
@@ -137,7 +137,7 @@ import icon9 from "../assets/images/MainMaterialManagement/icon9.png";
 export default {
   data() {
     return {
-      airId: "hospital_rtu1_11",
+      airId: "01",
       remark: "45.5",
       boilerList: [
         {
@@ -267,17 +267,17 @@ export default {
       updateInstalles: false,
       installes: "",
       addBoilerFlag: false,
-      addParameter:{
-        airId:'',
-        location:'',
-        eiName:'',
-        deptId:'',
-        installes:''
-      }
+      addParameter: {
+        airId: "",
+        location: "",
+        eiName: "",
+        deptId: "",
+        installes: "",
+      },
     };
   },
   mounted() {
-    this.showPrams('01');
+    this.showPrams(this.airId);
   },
   methods: {
     demo() {
@@ -347,7 +347,7 @@ export default {
     },
     //修改温度
     updateInstallesFn() {
-      updateinstallesApi({ airId: this.airId, runstatus: this.installes }).then(
+      updateinstallesApi({ airId: this.airId, runstatus: Number(this.installes) }).then(
         (res) => {
           if (res.code == 200) {
             this.$message({
@@ -355,6 +355,7 @@ export default {
               type: "success",
             });
             this.updateInstalles = false;
+            this.showPrams(this.airId);
           }
         }
       );
@@ -363,17 +364,16 @@ export default {
       this.addBoilerFlag = true;
     },
     addBoilerFn() {
-      newBoilerApi(this.addParameter).then(
-        (res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: "操作成功",
-              type: "success",
-            });
-            this.addBoilerFlag = false;
-          }
+      newBoilerApi(this.addParameter).then((res) => {
+        if (res.code == 200) {
+          this.$message({
+            message: "操作成功",
+            type: "success",
+          });
+          this.addBoilerFlag = false;
+          this.showPrams(this.airId);
         }
-      );
+      });
     },
   },
 };

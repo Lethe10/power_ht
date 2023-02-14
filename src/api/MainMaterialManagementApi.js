@@ -17,17 +17,11 @@ export const selectBoilerApi = (data) => {
     })
 }
 //插入锅炉参数
-export const newBoilerApi = () => {
+export const newBoilerApi = (data) => {
     return _axios({
         url: '/boiler/newBoiler',
         method: 'post',
-        data:{
-            airId:'02',
-            location:'02',
-            eiName:'02',
-            deptId:'02',
-            installes:'02',
-        }
+        data
     })
 }
 //设备编号 airId
