@@ -39,7 +39,12 @@
               />
             </div>
             <div class="content">
-              <p :style="{ color: item.paramsColor }" v-if="item.description!='室外温度'">{{ item.params }}</p>
+              <p
+                :style="{ color: item.paramsColor }"
+                v-if="item.description != '室外温度'"
+              >
+                {{ item.params }}{{item.company}}
+              </p>
               <p :style="{ color: item.paramsColor }" v-else>---</p>
               <p>{{ item.description }}</p>
             </div>
@@ -62,11 +67,7 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      title="更改锅炉开关"
-      :visible.sync="updateRunstatus"
-      width="15%"
-    >
+    <el-dialog title="更改锅炉开关" :visible.sync="updateRunstatus" width="15%">
       <p style="text-align: center">
         <el-button type="danger" @click="updateRunstatusFn('0000')"
           >关闭</el-button
@@ -76,38 +77,49 @@
         >
       </p>
     </el-dialog>
-    <el-dialog
-      title="设置温度"
-      :visible.sync="updateInstalles"
-      width="15%"
-    >
+    <el-dialog title="设置温度" :visible.sync="updateInstalles" width="15%">
       <p style="text-align: center">
-        <el-input v-model="installes" placeholder="请输入温度" type="number"></el-input>
+        <el-input
+          v-model="installes"
+          placeholder="请输入温度"
+          type="number"
+        ></el-input>
       </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="updateInstalles = false">取 消</el-button>
         <el-button type="primary" @click="updateInstallesFn">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog
-      title="新增锅炉"
-      :visible.sync="addBoilerFlag"
-      width="20%"
-    >
+    <el-dialog title="新增锅炉" :visible.sync="addBoilerFlag" width="20%">
       <p style="margin-bottom: 10px">
-        <el-input v-model="addParameter.airId" placeholder="请输入设备编号"></el-input>
+        <el-input
+          v-model="addParameter.airId"
+          placeholder="请输入设备编号"
+        ></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="addParameter.location" placeholder="请输入设备位置"></el-input>
+        <el-input
+          v-model="addParameter.location"
+          placeholder="请输入设备位置"
+        ></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="addParameter.eiName" placeholder="请输入设备名称"></el-input>
+        <el-input
+          v-model="addParameter.eiName"
+          placeholder="请输入设备名称"
+        ></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="addParameter.deptId" placeholder="请输入所属部门"></el-input>
+        <el-input
+          v-model="addParameter.deptId"
+          placeholder="请输入所属部门"
+        ></el-input>
       </p>
       <p style="margin-bottom: 10px">
-        <el-input v-model="addParameter.installes" placeholder="请输入设置温度"></el-input>
+        <el-input
+          v-model="addParameter.installes"
+          placeholder="请输入设置温度"
+        ></el-input>
       </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addBoilerFlag = false">取 消</el-button>
@@ -191,54 +203,63 @@ export default {
           paramsColor: "#00FFF2",
           description: "运行状态",
           iocnImg: icon1,
+          company: "",
         },
         {
           params: "56.2",
           paramsColor: "#00B1FF",
           description: "出水温度",
           iocnImg: icon2,
+          company: "°",
         },
         {
           params: "43.5",
           paramsColor: "#FF8700",
           description: "回水温度",
           iocnImg: icon3,
+          company: "°",
         },
         {
           params: "34",
           paramsColor: "#00FFF2",
           description: "水压",
           iocnImg: icon4,
+          company: "Bar",
         },
         {
           params: "32",
           paramsColor: "#00B1FF",
           description: "烟气温度",
           iocnImg: icon5,
+          company: "°",
         },
         {
           params: "32",
           paramsColor: "#FF8700",
           description: "室外温度",
           iocnImg: icon6,
-        },
-        {
-          params: "34",
-          paramsColor: "#00FFF2",
-          description: "锅炉功率",
-          iocnImg: icon7,
+          company: "°",
         },
         {
           params: "54",
           paramsColor: "#00B1FF",
           description: "生活水温",
           iocnImg: icon8,
+          company: "°",
+        },
+        {
+          params: "34",
+          paramsColor: "#00FFF2",
+          description: "锅炉功率",
+          iocnImg: icon7,
+          company: "%",
         },
         {
           params: "33",
           paramsColor: "#FF8700",
           description: "设置温度",
           iocnImg: icon9,
+          company: "°",
         },
       ],
       tableData: [
@@ -293,7 +314,7 @@ export default {
       this.airId = airId;
       let arr = [];
       selectBoilerApi({ airId: airId }).then((res) => {
-        console.log('锅炉'+airId+'接受到的参数',res);
+        console.log("锅炉" + airId + "接受到的参数", res);
         let {
           runstatus,
           hotwater,
@@ -323,6 +344,7 @@ export default {
           this.parameterList[0].params = "开机";
         }
       });
+      this.installes=''
     },
     update(text) {
       console.log(text);
@@ -347,18 +369,19 @@ export default {
     },
     //修改温度
     updateInstallesFn() {
-      updateinstallesApi({ airId: this.airId, runstatus: Number(this.installes) }).then(
-        (res) => {
-          if (res.code == 200) {
-            this.$message({
-              message: "操作成功",
-              type: "success",
-            });
-            this.updateInstalles = false;
-            this.showPrams(this.airId);
-          }
+      updateinstallesApi({
+        airId: this.airId,
+        installes: Number(this.installes),
+      }).then((res) => {
+        if (res.code == 200) {
+          this.$message({
+            message: "操作成功",
+            type: "success",
+          });
+          this.updateInstalles = false;
+          this.showPrams(this.airId);
         }
-      );
+      });
     },
     addBoiler() {
       this.addBoilerFlag = true;

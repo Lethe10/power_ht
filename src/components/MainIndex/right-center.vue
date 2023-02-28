@@ -141,8 +141,8 @@ export default {
     }
   }
   .right-center-echarts {
-    width: 100%;
-    height: 90%;
+    width: 420px;
+    height: 200px;
   }
 }
 </style>

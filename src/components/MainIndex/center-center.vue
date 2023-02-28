@@ -111,8 +111,8 @@ export default {
     }
   }
   .left-center-echarts {
-    width: 100%;
-    height: 90%;
+    width: 650px;
+    height: 220px;
   }
 }
 @keyframes powerIcon {

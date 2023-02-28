@@ -107,7 +107,7 @@ export default {
         {
           router: "/",
           imgSrc: img8,
-          title: "后期管理系统",
+          title: "后勤管理系统",
         },
       ],
       modelList3: [

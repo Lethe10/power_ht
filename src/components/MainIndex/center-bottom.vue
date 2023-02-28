@@ -24,12 +24,10 @@ export default {
         type: "category",
         data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         splitLine: { show: false },
-
       },
       yAxis: {
         type: "value",
         splitLine: { show: false },
-
       },
       series: [
         {
@@ -77,8 +75,8 @@ export default {
     }
   }
   .left-center-echarts {
-    width: 100%;
-    height: 90%;
+    width: 650px;
+    height: 220px;
   }
 }
 @keyframes powerIcon {

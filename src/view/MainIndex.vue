@@ -33,6 +33,9 @@ export default {
     LeftBottomBox,
     CenterBottomBox,
     RightBottomBox
+  },
+  mounted(){
+    console.log(1111);
   }
 }
 </script>
